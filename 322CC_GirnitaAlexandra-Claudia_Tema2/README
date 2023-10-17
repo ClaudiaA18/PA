@@ -1,0 +1,123 @@
+TEMA 2 
+
+Nume: Girnita Alexandra-Claudia
+Grupa: 322CC
+
+### Implementare ###
+ 
+###Problema 1: Supercomputer###
+
+	Codul reprezintă o implementare a rezolvării unei probleme referitoare la planificarea sarcinilor pe un supercomputer. 
+	Se dă un supercomputer cu două seturi de date: setul de date 1 și setul de date 2. Fiecare set de date conține un număr întreg pozitiv, care reprezintă durata de timp necesară pentru a finaliza sarcina asociată acelui set de date.
+	Există N sarcini care trebuie planificate pe supercomputer, numerotate de la 1 la N. Există și M dependențe între sarcini, unde o sarcină poate depinde de alte sarcini. Dependenta este unidirecțională, astfel încât o sarcină poate depinde de mai multe sarcini, dar o sarcină nu poate fi depășită de alte sarcini.
+
+	Scopul este de a planifica sarcinile pe supercomputer astfel încât durata totală a execuției să fie minimă, iar ordinea de executie să respecte dependențele sarcinilor. În plus, se dorește minimizarea schimbărilor de set de date pentru supercomputer, deoarece acestea implică un cost suplimentar.
+
+	Pas cu pas, codul rezolvă problema astfel:
+-> Se deschid fișierele de intrare (`supercomputer.in`) și ieșire (`supercomputer.out`).
+-> Se citesc valorile N și M din fișierul de intrare.
+-> Se creează vectori pentru seturile de date, dependențele sarcinilor și gradele de intrare pentru fiecare sarcină.
+-> Se citesc seturile de date pentru fiecare sarcină din fișierul de intrare și se actualizează vectorul `datasets`.
+-> Se citesc dependențele sarcinilor și se calculează gradele de intrare pentru fiecare sarcină, actualizând vectorii `dependencies` și `indegree`.
+-> Se creează două cozi, `q1` și `q2`, pentru sarcinile care nu au dependențe. Se adaugă sarcinile în coada potrivită în funcție de setul de date al sarcinii (`q1` pentru setul de date 1 și `q2` pentru setul de date 2).
+-> Se inițializează variabilele `minSwitches` cu 0 și `currentDataset` cu 0. Acestea vor fi folosite pentru a contoriza numărul minim de schimbări de set de date și pentru a urmări setul de date curent.
+-> Se procesează sarcinile până când ambele cozi (`q1` și `q2`) sunt goale:
+    	--> Se verifică care dintre cele două cozi trebuie procesată în funcție de setul de date curent (`currentDataset`). Dacă coada `q1` nu este goală și `currentDataset` este 1 sau coada `q2` este goală, se va alege `q1` pentru procesare; altfel, se va alege `q2`.
+	-->Se extrage sarcina din coada curentă și se actualizează `currentDataset` cu setul de date al sarcinii respective.
+    	--> Se procesează toate sarcinile dependente de sarcina curentă:
+        - Se scade 1 din gradul de intrare al fiecărei sarcini dependentă.
+        - Dacă gradul de intrare al unei sarcini dependente devine 0, înseamnă că aceasta nu mai are alte dependențe și poate fi adăugată în coada corespunzătoare (`q1` sau `q2`) în funcție de setul de date.
+-> Dacă mai există sarcini în coada `q1` și setul de date curent nu este 1, se incrementează `minSwitches` pentru a contoriza o schimbare de set de date.
+-> Dacă mai există sarcini în coada `q2` și setul de date curent nu este 2, se incrementează `minSwitches` pentru a contoriza o schimbare de set de date.
+-> Se scrie în fișierul de ieșire numărul minim de schimbări de set de date (`minSwitches`).
+
+	Complexitate: O(N + M)
+
+###Problema 2: Cai ferate###
+
+	Problema reprezintă o implementare a algoritmului pentru găsirea componentelor tare conexe (CTC) și a numărului de CTC-uri care nu au noduri cu grad de intrare zero într-un graf orientat.
+
+	Pas cu pas, funcția `main()` realizează următoarele acțiuni:
+-> Deschide fișierul de intrare `ferate.in` și fișierul de ieșire `ferate.out`.
+-> Citește numărul de noduri `N`, numărul de muchii `M` și nodul de start `S` din fișierul de intrare.
+-> Inițializează listele de adiacență `v` și `rev` pentru graful orientat.
+-> Pentru fiecare muchie citită din fișierul de intrare, adaugă nodurile corespunzătoare în listele de adiacență `v` și `rev`.
+-> Inițializează vectorul de vizitare `viz` cu `false`.
+-> Parcurge toate nodurile de la 1 la `n`. Pentru fiecare nod nevizitat, apelează funcția `DFS1()` pentru a efectua o parcurgere în adâncime (DFS) pentru a determina ordinea topologică a nodurilor.
+-> Inițializează un contor `cnt` cu 0.
+-> Cat timp stiva `st` nu este goală, extrage un nod `node` din vârful stivei. Dacă nodul nu a fost vizitat, apelează funcția `DFS2()` pentru a determina CTC-urile și pentru a marca nodurile respective.
+-> Parcurge toate nodurile de la 1 la `N`. Pentru fiecare nod `node`:
+	--> Pentru fiecare vecin `it` al nodului, dacă CTC-ul la care aparține `node` este diferit de CTC-ul la care aparține `it`, incrementează `gr[group[it]]`.
+-> Inițializează `ans` cu 0.
+-> Parcurge toate CTC-urile de la 1 la `cnt`. Pentru fiecare CTC `i`: dacă `gr[i]` este 0 și `zero_indegree` nu conține CTC-ul `i`, incrementează `ans`.
+-> Scrie rezultatul `ans` în fișierul de ieșire.
+
+	Funcția `DFS1()` primește un nod `node` și realizează o parcurgere în adâncime pentru a determina ordinea topologică a nodurilor. Marcajele de vizitare sunt actualizate în vectorul `viz`, iar nodurile sunt adăugate în stiva `st`.
+
+	Funcția `DFS2()` primește un nod `node` și un identificator `id` și determină CTC-urile și marcările corespunzătoare. Marcajele de vizitare sunt actualizate în vectorul `viz`, iar CTC-ul la care aparține fiecare nod este actualizat în vectorul `group`. De asemenea, CTC-urile care conțin noduri cu grad de intrare zero sunt adăugate în setul `zero_indegree`.
+
+	La final, se calculează și se returnează numărul de CTC-uri care nu au noduri cu grad de intrare zero în variabila `ans`.
+
+Complexitate: O(N + M)
+
+###Problema 3: Teleportare###
+
+	Codul rezolvă o problemă de determinare a celui mai scurt drum între două noduri într-un graf orientat ponderat, cu adăugarea unei restricții de modularitate pe anumite muchii.
+
+	Pas cu pas, codul realizează următoarele acțiuni:
+-> Se deschid fișierele de intrare (teleportare.in) și ieșire (teleportare.out).
+-> Se citesc valorile N, M și K din fișierul de intrare. Acestea reprezintă numărul de noduri, numărul de muchii și numărul de restricții de modularitate.
+-> Se definește o structură Edge pentru a reprezenta o muchie în graf, care conține un nod destinație și greutatea muchiei.
+-> Se definește un alias Graph pentru a reprezenta graful, care este un vector de liste de muchii.
+-> Se definește funcția addEdge pentru a adăuga o muchie în graf.
+-> Se definește funcția shortestPath pentru a găsi cel mai scurt drum între două noduri în graf, cu restricția de modularitate specificată.
+-> Se citesc muchiile grafului din fișierul de intrare și se adaugă în graf în ambele direcții.
+-> Se apelează funcția shortestPath pentru a găsi cel mai scurt drum între nodurile 1 și N în graf, având în vedere restricția de modularitate.
+->Se scrie rezultatul în fișierul de ieșire.
+
+	Funcția shortestPath implementează algoritmul lui Dijkstra, modificat pentru a lua în considerare restricția de modularitate. Se utilizează o coadă de prioritate și un vector de distanțe pentru a determina nodul cu cea mai mică distanță. Se inițializează distanțele inițiale cu infinit pentru toate nodurile și se adaugă nodul de start în coadă cu distanța 0. În timp ce coada nu este goală, se extrage nodul cu cea mai mică distanță și se actualizează distanțele și valorile de modularitate pentru vecinii fiecărui nod. La final, se returnează distanța minimă către nodul țintă, luând în considerare toate valorile de modularitate.
+
+	Complexitate: O(N * log(N))
+
+
+###Problema 4: Magazin###
+
+	Codul rezolvă o problemă care implică parcurgerea unui arbore și determinarea celui de-al E-lea nod accesibil dintr-un nod dat.
+
+	Pas cu pas, codul realizează următoarele acțiuni:
+-> Se definește o constantă `MAXN` pentru a reprezenta numărul maxim de noduri.
+-> Se declarați vectorul `depozite` ca un vector de vectori de întregi, care va reprezenta structura arborelui.
+-> Se declară vectorii `timp`, `timp_start` și `timp_stop` pentru a stoca informații despre timpul de descoperire al fiecărui nod și timpul de încheiere a parcurgerii.
+-> Se inițializează un contor cu 0 pentru a urmări timpul de descoperire.
+-> Se definește funcția `dfs` (Depth-First Search) pentru a realiza o parcurgere în adâncime a arborelui, pornind de la un nod dat.
+-> În interiorul funcției `dfs`, se actualizează timpul de start și se înregistrează nodul în vectorul `timp` la poziția corespunzătoare timpului de descoperire.
+-> Se parcurg recursiv toți vecinii nodului curent și se apelează funcția `dfs` pentru fiecare vecin.
+-> După finalizarea parcurgerii recursive, se actualizează timpul de încheiere al nodului curent.
+-> În funcția `main`, se deschid fișierele de intrare (`magazin.in`) și de ieșire (`magazin.out`).
+-> Se citesc valorile N și Q din fișierul de intrare, reprezentând numărul de noduri din arbore și numărul de întrebări.
+-> Se citesc conexiunile dintre noduri și se construiește arborele.
+-> Se apelează funcția `dfs` pentru a parcurge arborele și a calcula timpul de descoperire și încheiere pentru fiecare nod.
+-> Se parcurge un număr Q de întrebări într-un buclă while.
+-> Pentru fiecare întrebare, se citește un nod D și un număr E din fișierul de intrare.
+-> Se calculează numărul total de noduri accesibile din nodul D, substractând timpul de start al nodului D din timpul de încheiere al nodului D.
+-> Se verifică dacă numărul E este mai mare decât numărul de noduri accesibile. Dacă da, se afișează -1 în fișierul de ieșire pentru că nodul căutat nu există.
+-> Altfel, se afișează în fișierul de ieșire nodul corespunzător timpului de descoperire calculat prin adăugarea timpului de start al nodului D la E.
+-> Incrementăm valoarea lui i pentru a trece la următoarea întrebare.
+
+	Complexitate: O(N + Q)
+
+
+###Resurse: ###
+- am folosit ajutorul chatGPT-ului pentru intreaga tema (idei algoritmi, bucati de cod, debug, verificare complexitate)
+	ex prompturi: make it better, make it works, fix it
+- stackoverflow
+- am pornit de la laboratoarele rezolvate (arhivele de pe teams)
+
+
+
+
+
+
+
+
+

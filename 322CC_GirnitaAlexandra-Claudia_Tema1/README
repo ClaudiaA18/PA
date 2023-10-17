@@ -1,0 +1,40 @@
+
+###############################################################################################
+
+TEMA 1 - PA - Aproape fara gigel
+Nume: Girnita Alexandra-Claudia
+Grupa: 322CC
+
+###############################################################################################
+
+~ Implementare ~
+
+#1 Feribot
+    In rezolvarea problemei Feribot s-a utilizat cautarea binara in valorile pe care le poate lua C-ul. Intervalul de cautare initial este 0 si suma tuturor masinilor. La fiecare subinterval se considera mijlocul ca fiind costul maxim si se verifica prin metoda possible() daca masinile pot fi impartite la numarul de feriboturi fara sa il depaseasca. La final va fi returnata cea mai mica valoare de cost care indeplineste conditia. Complexitatea programului este O(n*log(sum)) unde sum reprezinta suma greutatilor masinilor.
+
+#2 Nostory
+    Pentru problema acestei probleme s-a utilizat un algoritm de tip greedy. 
+-> Primul punct presupune un numar nelimitat de mutari ale numerelor asa ca solutia propusa presupune sortarea crescatoare a primului sir si descrescatoare a celui de-al doilea astfel fiind alese valorile maxime din ambele siruri. Acest punct are complexitatea O(n*log(n)). 
+_> La punctul 2 numarul de mutari ne este limitat a fost calculata solutia problemei fara mutari de numere si la fiecare pas au fost retinute numarul selectat ca fiind mai mare in sirul maxx si numarul mai mic neselectat in sirul minn. Aceste 2 siruri au fost sortate (maxx crescator si minn descrescator) si in limita numarului de mutari, cel mai mic numar din maxx este inlocuit cu cel mai mare numar din minn, daca este cazul, astfel maximizand scorul final. Complexitatea pentru acest punct este O(n*log(n)+K).
+
+#3 Sushi
+    In rezolvarea acestei probleme s-a utilizat programarea dinamica. 
+-> Pentru primul subpunct in care limita era alegerea a maxim unei farfurii din fiecare tip s-a folosit vectorul dp[i][j] reprezentand scorul maxim obtinut luand in calcul primele i feluri de mancare si cheltuind j lei. La fiecare pas se se poate alege sau nu tipul de mancare i, in functie de bugetul ramas rezultatul este returnat din dp[m][buget]. Complexitatea metodei este O(m*n*x) . 
+-> Subpunctul 2 are la baza subpunctul 1 dar fiecare fel de mancare poate fi ales maxim de 2 ori, astfel, la fiecare pas se calculeaza si posibiliatea ca felul de mancare sa fie ales de 2 ori. Complexitatea este tot O(m*n*x) . 
+-> La subpunctul 3 este luat in considerare ca numarul de feluri de mancare sa nu depaseasca numarul de persoane. In acest caz s-a ales sa se mai adauge o dimensiune la vectorul dp care sa tina evidenta numarului de feluri de mancare alese. Complexitatea devine O(m*n*n*x)
+
+#4 Semnale 
+    Problema Semnale este una de numarare in functie de numarul de biti de 1 si de lungimea sirului. Pentru rezolvarea ei s-a utilizat programarea dinamica. Pentru punctul 1 in care nu puteau exista biti consecutibi de 1 s-a utilizat tabloul bidimensional dp, o dimensiune reprezentand lungimea sirului si cealalta numarul de biti de 1 (ex: 010010 -> dp[6][2]), in care s-au adunat numarul de semnale posibile calculate pe baza solutiilor anterioare, recurenta fiind dp[i][j] = (dp[i-1][j] + dp[i-2][j-1]), solutia finala fiind dp[n][y]. Complexitatea programului este O(n*y). Pentru punctul 2 in care puteau exista maxim 2 biti de 1 consecutivi s-a adaugat inca o dimensiune tabloului dp care reprezinta nr de biti de 1 consecutivi de la finalul semnalului ( 0,1 sau 2). Adunarea se face separat pentru cazurile in care se poate adauga un bit de 0 la finalul sirului si cazurile in care se poate adauga un bit de 1. In acest caz complexitatea este O(n*y*3).
+
+
+~ Folosire chatGPT ~ 
+- l-am folosit pentru determinarea complexitatii problemelor
+- pentru problema 1, am cerut idei de implementare si optimizare a codului intrucat aveam erori pe anumite teste datorate de timp
+
+
+~ Tema a fost utila pentru intelegerea si aprofundarea algoritmilor din laboratoare 
+~ Limbaj de programare ales : C++ (l-am ales datorita bibliotecilor pe care le include, care facilitau implementarea solutiilor)
+~ Dificultate : mediu 
+~ Timp de lucru: 4-5 zile (am intampinat multe erori datorate timpului de executie care depasea limita ceruta)
+
+
